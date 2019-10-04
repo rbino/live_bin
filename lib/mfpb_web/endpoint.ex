@@ -1,6 +1,8 @@
 defmodule MFPBWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :mfpb
 
+  socket "/live", Phoenix.LiveView.Socket
+
   socket "/socket", MFPBWeb.UserSocket,
     websocket: true,
     longpoll: false

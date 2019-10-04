@@ -15,7 +15,8 @@ config :mfpb, MFPBWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "xQXMsOSMhxv/B4GAQQKrAQJnmaLOwbULnEplRsc+zg+JkRDZAQNIk7iBiXkghCc9",
   render_errors: [view: MFPBWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: MFPB.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: MFPB.PubSub, adapter: Phoenix.PubSub.PG2],
+  live_view: [signing_salt: "+n3iMAp7VAyuL+VhokxRMB0ko8DufoZP"]
 
 # Configures Elixir's Logger
 config :logger, :console,
