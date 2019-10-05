@@ -2,6 +2,11 @@ defmodule MFPBWeb.Router do
   use MFPBWeb, :router
 
   pipeline :browser do
+    plug Plug.Parsers,
+      parsers: [:urlencoded, :multipart, :json],
+      pass: ["*/*"],
+      json_decoder: Phoenix.json_library()
+
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
@@ -10,7 +15,7 @@ defmodule MFPBWeb.Router do
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug MFPBWeb.BodyReader
   end
 
   scope "/", MFPBWeb do
