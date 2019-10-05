@@ -24,8 +24,9 @@ defmodule MFPBWeb.Router do
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", MFPBWeb do
-  #   pipe_through :api
-  # end
+  scope "/r", MFPBWeb do
+    pipe_through :api
+
+    match :*, "/*path_tokens", RequestController, :request
+  end
 end
