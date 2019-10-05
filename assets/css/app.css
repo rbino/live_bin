@@ -1,4 +1,30 @@
 /* This file is for your main application css. */
 
 @import "./phoenix.css";
-@import "../../deps/phoenix_live_view/assets/css/live_view.css"
+@import "../../deps/phoenix_live_view/assets/css/live_view.css";
+
+body {
+    font-size: 1.8rem;
+}
+
+.button {
+    font-size: 1.3rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+h1 {
+    font-size: 3.8rem;
+    margin-top: 2.0rem;
+    margin-bottom: 0rem;
+}
+
+.mg {
+    margin: 3rem;
+}
+
+.mgt {
+    margin-top: 2rem;
+}
