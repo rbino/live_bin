@@ -39,6 +39,7 @@ defmodule MFPB.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:elixir_uuid, "~> 1.2"},
+      {:recase, github: "sobolevn/recase"},
       {:plug_cowboy, "~> 2.0"},
       {:phoenix_live_view, "~> 0.3.0"},
       {:floki, ">= 0.0.0", only: :test}
