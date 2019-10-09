@@ -3,6 +3,7 @@ defmodule MFPB.Requests do
 
   alias MFPB.Requests.Bin
   alias MFPB.Requests.Request
+  alias MFPB.Requests.Bin.Registry, as: BinRegistry
   alias MFPB.Requests.Bin.Supervisor, as: BinSupervisor
 
   def create_new_bin do
@@ -32,5 +33,12 @@ defmodule MFPB.Requests do
 
   def subscribe(bin_id) when is_binary(bin_id) do
     Phoenix.PubSub.subscribe(MFPB.PubSub, "requests:#{bin_id}")
+  end
+
+  def bin_exists?(bin_id) do
+    case Registry.lookup(BinRegistry, bin_id) do
+      [] -> false
+      [{_pid, _value}] -> true
+    end
   end
 end
