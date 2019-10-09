@@ -21,7 +21,7 @@ defmodule MFPBWeb.Router do
   scope "/", MFPBWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    live "/", IndexLive
   end
 
   scope "/r", MFPBWeb do
