@@ -27,12 +27,30 @@ defmodule MFPBWeb.BinLive do
     BinView.render("not_found.html", assigns)
   end
 
+  def render(%{timeout: true} = assigns) do
+    BinView.render("timeout.html", assigns)
+  end
+
+  def render(%{size_exceeded: true} = assigns) do
+    BinView.render("size_exceeded.html", assigns)
+  end
+
   def render(assigns) do
     BinView.render("bin.html", assigns)
   end
 
   def handle_info({:request, %Request{} = req}, socket) do
     {:noreply, assign(socket, requests: [req])}
+  end
+
+  def handle_info(:bin_timeout, socket) do
+    Process.send_after(self(), :redirect_to_index, 5000)
+    {:noreply, assign(socket, timeout: true)}
+  end
+
+  def handle_info(:bin_size_exceeded, socket) do
+    Process.send_after(self(), :redirect_to_index, 5000)
+    {:noreply, assign(socket, size_exceeded: true)}
   end
 
   def handle_info(:redirect_to_index, socket) do
