@@ -1,35 +1,29 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
-  <p>A productive web framework that<br/>does not compromise speed or maintainability.</p>
-</section>
-
-<section class="row">
-  <article class="column">
-    <h2>Resources</h2>
-    <ul>
-      <li>
-        <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix/blob/v1.4/CHANGELOG.md">v1.4 Changelog</a>
-      </li>
-    </ul>
-  </article>
-  <article class="column">
-    <h2>Help</h2>
-    <ul>
-      <li>
-        <a href="https://elixirforum.com/c/phoenix-forum">Forum</a>
-      </li>
-      <li>
-        <a href="https://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on Freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">Twitter @elixirphoenix</a>
-      </li>
-    </ul>
-  </article>
-</section>
+<div class="row">
+  <div class="column column-center text-center">
+    <h1>mfpb</h1>
+    <button class="button mg">Create new bin</button>
+  </div>
+</div>
+<div class="row">
+  <div class="column">
+    <h2>About</h2>
+    <p>
+      <b>mfpb</b> is a simple tool used to inspect HTTP requests.
+    </p>
+    <p>
+      It tries not to get in your way, it doesn't parse the body or do other
+      fancy stuff with your request. This way you see exactly what was sent.
+      The idea is basically having the same output you would get by doing HTTP
+      requests to a listening instance of <code>netcat</code>.
+    </p>
+    <p>
+      Under the hood it uses the super cool
+      <a target="_blank" href="https://github.com/phoenixframework/phoenix_live_view">Phoenix Live View</a>,
+      so new requests are prepended at the top of the page without the need of
+      refreshing.
+    </p>
+    <p>
+      You can find the source <a target="_blank" href="https://github.com/rbino/mfpb">on Github</a>.
+    </p>
+  </div>
+</div>
