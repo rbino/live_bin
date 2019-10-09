@@ -4,7 +4,7 @@ defmodule MFPBWeb.RequestController do
   alias MFPB.Requests
   alias MFPB.Requests.Request
 
-  def request(conn, %{"path_tokens" => path_tokens}) do
+  def request(conn, %{"bin_id" => bin_id, "path_tokens" => path_tokens}) do
     http_version = get_http_protocol(conn)
     body = conn.assigns[:body]
 
@@ -26,8 +26,12 @@ defmodule MFPBWeb.RequestController do
         body: body
       )
 
-    with :ok <- Requests.add_request(req) do
-      send_resp(conn, :ok, req.id)
+    if Requests.bin_exists?(bin_id) do
+      with :ok <- Requests.add_request(bin_id, req) do
+        send_resp(conn, :ok, req.id)
+      end
+    else
+      send_resp(conn, :not_found, "")
     end
   end
 end
