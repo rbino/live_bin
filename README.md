@@ -11,6 +11,11 @@ Under the hood it uses the super cool [Phoenix Live View](https://github.com/pho
 so new requests are prepended at the top of the page without the need of
 refreshing.
 
+You can visit [mfpb.in](https://mfpb.in) to try it live (the app is
+behind a Load Balancer so it currently adds some extra headers to requests).
+
+## Local use
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
