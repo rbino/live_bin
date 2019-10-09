@@ -26,12 +26,16 @@ defmodule MFPBWeb.RequestController do
         body: body
       )
 
-    if Requests.bin_exists?(bin_id) do
-      with :ok <- Requests.add_request(bin_id, req) do
-        send_resp(conn, :ok, req.id)
-      end
+    with true <- Requests.bin_exists?(bin_id),
+         :ok <- Requests.add_request(bin_id, req) do
+      send_resp(conn, :ok, req.id)
     else
-      send_resp(conn, :not_found, "")
+      # Bin does not exist
+      false ->
+        send_resp(conn, :not_found, "")
+
+      {:error, :bin_size_exceeded} ->
+        send_resp(conn, :too_many_requests, "")
     end
   end
 end
