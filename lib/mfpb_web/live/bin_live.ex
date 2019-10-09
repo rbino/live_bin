@@ -31,7 +31,7 @@ defmodule MFPBWeb.BinLive do
     BinView.render("bin.html", assigns)
   end
 
-  def handle_info(%Request{} = req, socket) do
+  def handle_info({:request, %Request{} = req}, socket) do
     {:noreply, assign(socket, requests: [req])}
   end
 
