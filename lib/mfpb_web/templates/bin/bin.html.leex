@@ -1,3 +1,12 @@
+<%= if @request_url do %>
+<h2 class="mgt">Bin base URL</h2>
+<pre><code><%= @request_url %></code></pre>
+<p>
+  Send your requests to this URL or any of its subpaths.
+</p>
+<hr>
+<h2>Requests</h2>
+<%= end %>
 <div id="requests-container" phx-update="prepend">
   <%= for r <- @requests do %>
     <div id="<%= r.id %>">
