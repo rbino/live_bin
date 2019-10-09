@@ -22,7 +22,7 @@ defmodule MFPB.Requests do
 
   def add_request(bin_id, %Request{} = request) when is_binary(bin_id) do
     with :ok <- Bin.append(bin_id, request),
-         :ok <- Phoenix.PubSub.broadcast(MFPB.PubSub, "requests:#{bin_id}", request) do
+         :ok <- Phoenix.PubSub.broadcast(MFPB.PubSub, "bins:#{bin_id}", {:request, request}) do
       :ok
     end
   end
@@ -32,7 +32,7 @@ defmodule MFPB.Requests do
   end
 
   def subscribe(bin_id) when is_binary(bin_id) do
-    Phoenix.PubSub.subscribe(MFPB.PubSub, "requests:#{bin_id}")
+    Phoenix.PubSub.subscribe(MFPB.PubSub, "bins:#{bin_id}")
   end
 
   def bin_exists?(bin_id) do
