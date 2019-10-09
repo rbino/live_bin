@@ -27,6 +27,6 @@ defmodule MFPBWeb.Router do
   scope "/r", MFPBWeb do
     pipe_through :api
 
-    match :*, "/*path_tokens", RequestController, :request
+    match :*, "/:bin_id/*path_tokens", RequestController, :request
   end
 end
