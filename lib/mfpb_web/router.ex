@@ -22,6 +22,7 @@ defmodule MFPBWeb.Router do
     pipe_through :browser
 
     live "/", IndexLive
+    live "/b/:bin_id", BinLive
   end
 
   scope "/r", MFPBWeb do
