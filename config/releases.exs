@@ -14,6 +14,7 @@ check_origin =
 config :mfpb, MFPBWeb.Endpoint,
   server: true,
   secret_key_base: System.fetch_env!("SECRET_KEY_BASE"),
+  http: [:inet6, port: String.to_integer(port)],
   url: [scheme: scheme, host: host, port: port],
   check_origin: check_origin
 
