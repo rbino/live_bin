@@ -1,8 +1,10 @@
 import Config
 
 host = System.get_env("MFPB_HOST", "localhost")
-port = System.get_env("MFPB_PORT", "4000")
+http_port = System.get_env("MFPB_PORT", "4000")
 scheme = System.get_env("MFPB_SCHEME", "http")
+
+port = System.get_env("PORT", "4000")
 
 check_origin =
   if host != "localhost" do
@@ -30,7 +32,7 @@ config :mfpb, MFPBWeb.Endpoint,
   server: true,
   secret_key_base: secret_key_base,
   http: [:inet6, port: String.to_integer(port)],
-  url: [scheme: scheme, host: host, port: port],
+  url: [scheme: scheme, host: host, port: http_port],
   check_origin: check_origin
 
 bin_inactivity_timeout =
