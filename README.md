@@ -14,15 +14,30 @@ refreshing.
 You can visit [mfpb.in](https://mfpb.in) to try it live (the app is
 behind a Load Balancer so it currently adds some extra headers to requests).
 
-## Local use
+## Running your instance
 
-To start your Phoenix server:
+You can run your instance using the Docker image
 
-  * Install dependencies with `mix deps.get`
-  * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
+```
+export SECRET_KEY_BASE=$(mix phx.gen.secret)
+# or `openssl rand -base64 48` if you don't have phx generators installed
+docker run -e SECRET_KEY_BASE -p 4000:4000 mfpb/rbino
+```
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+
+### Additional environment variables
+mfpb accepts these additional environment variables, that you can pass with `-e`
+to `docker run`:
+
+- `MFPB_PORT`: HTTP port. Defaults to `4000`.
+- `MFPB_HOST`: HTTP base host (e.g. `example.com`). Needed to make websockets
+work correctly and to generate links. Defaults to `localhost`.
+- `MFPB_SCHEME`: http scheme, can be `http` or `https`. Defaults to `http`.
+- `MFPB_BIN_INACTIVITY_TIMEOUT`: the timeout after which a bin will be deleted
+if there's no activity on it, in milliseconds. Defaults to infinity.
+- `MFPB_BIN_MAX_REQUESTS`: the max number of requests that a bin can receive
+before being deleted. Defaults to `nil`, which means unlimited.
 
 ## License
 Copyright (c) 2019 Riccardo Binetti <rbino@gmx.com>
