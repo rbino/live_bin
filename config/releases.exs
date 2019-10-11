@@ -11,9 +11,24 @@ check_origin =
     true
   end
 
+secret_key_base =
+  case System.fetch_env("SECRET_KEY_BASE") do
+    {:ok, secret} ->
+      secret
+
+    :error ->
+      raise """
+      You must provide the SECRET_KEY BASE environment variable.
+      You can generate  a valid secret with:
+        mix phx.gen.secret
+      or, if you don't have phoenix generators installed:
+        openssl rand -base64 48
+      """
+  end
+
 config :mfpb, MFPBWeb.Endpoint,
   server: true,
-  secret_key_base: System.fetch_env!("SECRET_KEY_BASE"),
+  secret_key_base: secret_key_base,
   http: [:inet6, port: String.to_integer(port)],
   url: [scheme: scheme, host: host, port: port],
   check_origin: check_origin
