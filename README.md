@@ -31,9 +31,13 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 mfpb accepts these additional environment variables, that you can pass with `-e`
 to `docker run`:
 
-- `MFPB_PORT`: HTTP port. Defaults to `4000`.
-- `MFPB_HOST`: HTTP base host (e.g. `example.com`). Needed to make websockets
-work correctly and to generate links. Defaults to `localhost`.
+- `PORT`: the listening port, that will have to be exposed from the container.
+Defaults to `4000`.
+- `MFPB_PORT`: the port where mfpb is served. This is not necessarily the
+same as `PORT` (e.g. if you're behind a reverse proxy). Needed to correctly
+generate links. Defaults to `4000`.
+- `MFPB_HOST`: base host (e.g. `example.com`) where mfpb is served. Needed to
+make websockets work and to correctly generate links. Defaults to `localhost`.
 - `MFPB_SCHEME`: http scheme, can be `http` or `https`. Defaults to `http`.
 - `MFPB_BIN_INACTIVITY_TIMEOUT`: the timeout after which a bin will be deleted
 if there's no activity on it, in milliseconds. Defaults to infinity.
