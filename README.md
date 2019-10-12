@@ -42,6 +42,10 @@ make websockets work and to correctly generate links. Defaults to `localhost`.
 if there's no activity on it, in milliseconds. Defaults to infinity.
 - `MFPB_BIN_MAX_REQUESTS`: the max number of requests that a bin can receive
 before being deleted. Defaults to `nil`, which means unlimited.
+- `MFPB_USE_BIN_SUBDOMAINS`: if `true`, generates request URLs appear as
+`<bin_id>.<host>` instead of `<host>/r/<bin_id>`. This just changes the way URLs
+are generated, to make it work, the reverse proxy must perform the appropriate
+URL rewriting (taking `<bin_id>` from the subdomain and putting it in the path).
 
 ## License
 Copyright (c) 2019 Riccardo Binetti <rbino@gmx.com>
