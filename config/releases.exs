@@ -47,3 +47,7 @@ bin_inactivity_timeout =
 config :mfpb, :bin_inactivity_timeout, bin_inactivity_timeout
 
 config :mfpb, :bin_max_requests, System.get_env("MFPB_BIN_MAX_REQUESTS")
+
+if System.get_env("MFPB_USE_BIN_SUBDOMAINS") do
+  config :mfpb, :use_bin_subdomains, true
+end
