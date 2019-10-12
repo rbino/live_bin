@@ -1,9 +1,11 @@
 defmodule MFPBWeb.BinLive do
   use Phoenix.LiveView
 
+  alias MFPB.Config
   alias MFPB.Requests
   alias MFPB.Requests.Request
   alias MFPBWeb.BinView
+  alias MFPBWeb.Endpoint
   alias MFPBWeb.Router.Helpers, as: Routes
 
   def mount(_session, socket) do
@@ -12,14 +14,29 @@ defmodule MFPBWeb.BinLive do
 
   def handle_params(%{"bin_id" => bin_id}, _uri, socket) do
     if Requests.bin_exists?(bin_id) do
-      request_url = Routes.request_url(MFPBWeb.Endpoint, :request, bin_id, [])
       :ok = Requests.subscribe(bin_id)
       requests = Requests.get_all_requests(bin_id)
 
-      {:noreply, assign(socket, requests: requests, request_url: request_url)}
+      {:noreply, assign(socket, requests: requests, request_url: build_request_url(bin_id))}
     else
       Process.send_after(self(), :redirect_to_index, 5000)
       {:noreply, assign(socket, not_found: true)}
+    end
+  end
+
+  defp build_request_url(bin_id) do
+    if Config.bin_subdomains?() do
+      url_config = Endpoint.config(:url, [])
+      base_host = Keyword.fetch!(url_config, :host)
+      scheme = Keyword.get(url_config, :scheme, "http")
+
+      %URI{
+        scheme: scheme,
+        host: bin_id <> "." <> base_host
+      }
+      |> URI.to_string()
+    else
+      Routes.request_url(Endpoint, :request, bin_id, [])
     end
   end
 
