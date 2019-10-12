@@ -7,4 +7,8 @@ defmodule MFPB.Config do
     # nil is ok as default since any integer is <= nil
     Application.get_env(:mfpb, :bin_max_requests)
   end
+
+  def bin_subdomains? do
+    Application.get_env(:mfpb, :use_bin_subdomains, false)
+  end
 end
