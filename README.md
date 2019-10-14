@@ -47,6 +47,12 @@ before being deleted. Defaults to `nil`, which means unlimited.
 are generated, to make it work, the reverse proxy must perform the appropriate
 URL rewriting (taking `<bin_id>` from the subdomain and putting it in the path).
 
+### nginx configuration example
+In `priv/examples/nginx-example.conf` you can find a sample `nginx` conf to
+serve as reverse proxy for mfpb, with bin subdomains support. You should just be
+able to replace `mfpb.in` with your URL and, after obtaining SSL certificates,
+you should be good to go.
+
 ## License
 Copyright (c) 2019 Riccardo Binetti <rbino@gmx.com>
 
