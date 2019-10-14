@@ -9,7 +9,7 @@ defmodule MFPB.Requests do
   def create_new_bin do
     bin_id =
       :crypto.strong_rand_bytes(10)
-      |> Base.url_encode64(padding: false)
+      |> Base.encode32(case: :lower, padding: false)
 
     with {:ok, _pid} <- DynamicSupervisor.start_child(BinSupervisor, {Bin, bin_id: bin_id}) do
       {:ok, bin_id}
