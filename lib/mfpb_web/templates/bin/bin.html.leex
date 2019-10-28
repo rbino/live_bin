@@ -16,6 +16,8 @@
         <i>The body was hidden since it contains unprintable characters</i>
       <% end %>
       <%= render("request.html", request: r) %>
+      <% body_link = Routes.bin_path(Endpoint, :get_body, @bin_id, r.id) %>
+      <a href="<%= body_link %>">Download body</a>
       <hr>
     </div>
   <% end %>
