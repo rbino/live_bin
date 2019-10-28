@@ -12,6 +12,9 @@
     <div id="<%= r.id %>">
       <h4>ID: <a href="#<%= r.id %>"><%= r.id %></a></h4>
       <h5>Received at: <%= DateTime.to_iso8601(r.timestamp) %></h5>
+      <%= if r.body && not has_printable_body?(r) do %>
+        <i>The body was hidden since it contains unprintable characters</i>
+      <% end %>
       <%= render("request.html", request: r) %>
       <hr>
     </div>
