@@ -17,7 +17,8 @@ defmodule MFPBWeb.BinLive do
       :ok = Requests.subscribe(bin_id)
       requests = Requests.get_all_requests(bin_id)
 
-      {:noreply, assign(socket, requests: requests, request_url: build_request_url(bin_id))}
+      {:noreply,
+       assign(socket, requests: requests, request_url: build_request_url(bin_id), bin_id: bin_id)}
     else
       Process.send_after(self(), :redirect_to_index, 5000)
       {:noreply, assign(socket, not_found: true)}
