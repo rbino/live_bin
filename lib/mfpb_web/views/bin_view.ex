@@ -2,6 +2,8 @@ defmodule MFPBWeb.BinView do
   use MFPBWeb, :view
 
   alias MFPB.Requests.Request
+  alias MFPBWeb.Endpoint
+  alias MFPBWeb.Router.Helpers, as: Routes
 
   def render_request(%Request{} = request) do
     start_line = start_line(request)
