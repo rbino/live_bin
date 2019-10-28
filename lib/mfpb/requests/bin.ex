@@ -17,6 +17,11 @@ defmodule MFPB.Requests.Bin do
     |> GenServer.call(:get_all)
   end
 
+  def fetch(bin_id, request_id) do
+    via_tuple(bin_id)
+    |> GenServer.call({:fetch, request_id})
+  end
+
   def append(bin_id, %Request{} = request) do
     via_tuple(bin_id)
     |> GenServer.call({:append, request})
@@ -33,6 +38,20 @@ defmodule MFPB.Requests.Bin do
 
   def handle_call(:get_all, _from, state) do
     {:reply, state.requests, state, Config.bin_inactivity_timeout_ms()}
+  end
+
+  def handle_call({:fetch, request_id}, _from, state) do
+    # For now, we assume that fetch is not a frequent operation, since it is used only to download
+    # the body. Hence, we just filter the list instead of duplicating everything in a map.
+    requests = Enum.filter(state.requests, fn request -> request.id == request_id end)
+
+    case requests do
+      [request] ->
+        {:reply, {:ok, request}, state, Config.bin_inactivity_timeout_ms()}
+
+      [] ->
+        {:reply, :error, state, Config.bin_inactivity_timeout_ms()}
+    end
   end
 
   def handle_call({:append, request}, _from, state) do
