@@ -23,6 +23,7 @@ defmodule MFPBWeb.Router do
 
     live "/", IndexLive
     live "/b/:bin_id", BinLive
+    get "/b/:bin_id/requests/:request_id/body", BinController, :get_body
   end
 
   scope "/r", MFPBWeb do
