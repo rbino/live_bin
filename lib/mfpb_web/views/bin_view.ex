@@ -9,11 +9,19 @@ defmodule MFPBWeb.BinView do
 
     start_line_and_headers = [start_line, "\n", headers]
 
-    if request.body do
-      [start_line_and_headers | ["\n\n", request.body]]
-    else
-      start_line_and_headers
+    cond do
+      has_printable_body?(request) ->
+        [start_line_and_headers | ["\n\n", request.body]]
+
+      true ->
+        start_line_and_headers
     end
+  end
+
+  def has_printable_body?(%Request{body: nil}), do: false
+
+  def has_printable_body?(%Request{body: body}) when is_binary(body) do
+    String.valid?(body)
   end
 
   defp start_line(%Request{} = request) do
