@@ -31,6 +31,10 @@ defmodule MFPB.Requests do
     Bin.get_all(bin_id)
   end
 
+  def fetch_request(bin_id, request_id) when is_binary(bin_id) and is_binary(request_id) do
+    Bin.fetch(bin_id, request_id)
+  end
+
   def subscribe(bin_id) when is_binary(bin_id) do
     Phoenix.PubSub.subscribe(MFPB.PubSub, "bins:#{bin_id}")
   end
