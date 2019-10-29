@@ -17,8 +17,7 @@ defmodule MFPBWeb.BinController do
         filename: "body-" <> request.id
       ]
 
-      conn
-      |> send_download({:binary, request.body}, download_opts)
+      send_download(conn, {:binary, request.body}, download_opts)
     else
       {:exists, _} ->
         send_resp(conn, :not_found, "Bin not found")
