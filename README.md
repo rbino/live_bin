@@ -21,7 +21,7 @@ You can run your instance using the Docker image
 ```
 export SECRET_KEY_BASE=$(mix phx.gen.secret)
 # or `openssl rand -base64 48` if you don't have phx generators installed
-docker run -e SECRET_KEY_BASE -p 4000:4000 mfpb/rbino:0.1.0
+docker run -e SECRET_KEY_BASE -p 4000:4000 mfpb/rbino:0.2.0
 ```
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
