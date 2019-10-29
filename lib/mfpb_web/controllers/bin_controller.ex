@@ -12,9 +12,13 @@ defmodule MFPBWeb.BinController do
             key == "content-type"
         end)
 
+      download_opts = [
+        content_type: content_type,
+        filename: "body-" <> request.id
+      ]
+
       conn
-      |> put_resp_content_type(content_type)
-      |> send_resp(200, request.body)
+      |> send_download({:binary, request.body}, download_opts)
     else
       {:exists, _} ->
         send_resp(conn, :not_found, "Bin not found")
