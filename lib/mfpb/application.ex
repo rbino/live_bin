@@ -8,6 +8,10 @@ defmodule MFPB.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
+      # Start the Telemetry supervisor
+      MFPBWeb.Telemetry,
+      # Start the PubSub system
+      {Phoenix.PubSub, name: MFPB.PubSub},
       {Registry, keys: :unique, name: MFPB.Requests.Bin.Registry},
       {DynamicSupervisor, strategy: :one_for_one, name: MFPB.Requests.Bin.Supervisor},
       # Start the endpoint when the application starts
