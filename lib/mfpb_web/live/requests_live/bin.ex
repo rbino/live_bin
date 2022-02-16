@@ -1,5 +1,5 @@
-defmodule MFPBWeb.BinLive do
-  use Phoenix.LiveView
+defmodule MFPBWeb.RequestsLive.Bin do
+  use MFPBWeb, :live_view
 
   alias MFPB.Config
   alias MFPB.Requests
@@ -42,19 +42,19 @@ defmodule MFPBWeb.BinLive do
   end
 
   def render(%{not_found: true} = assigns) do
-    BinView.render("not_found.html", assigns)
+    Phoenix.View.render(BinView, "not_found.html", assigns)
   end
 
   def render(%{timeout: true} = assigns) do
-    BinView.render("timeout.html", assigns)
+    Phoenix.View.render(BinView, "timeout.html", assigns)
   end
 
   def render(%{size_exceeded: true} = assigns) do
-    BinView.render("size_exceeded.html", assigns)
+    Phoenix.View.render(BinView, "size_exceeded.html", assigns)
   end
 
   def render(assigns) do
-    BinView.render("bin.html", assigns)
+    Phoenix.View.render(BinView, "bin.html", assigns)
   end
 
   def handle_info({:request, %Request{} = req}, socket) do
@@ -72,6 +72,6 @@ defmodule MFPBWeb.BinLive do
   end
 
   def handle_info(:redirect_to_index, socket) do
-    {:noreply, live_redirect(socket, to: "/")}
+    {:noreply, push_redirect(socket, to: "/")}
   end
 end

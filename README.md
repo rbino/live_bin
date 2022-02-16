@@ -32,12 +32,8 @@ to `docker run`:
 
 - `PORT`: the listening port, that will have to be exposed from the container.
 Defaults to `4000`.
-- `MFPB_PORT`: the port where mfpb is served. This is not necessarily the
-same as `PORT` (e.g. if you're behind a reverse proxy). Needed to correctly
-generate links. Defaults to `4000`.
-- `MFPB_HOST`: base host (e.g. `example.com`) where mfpb is served. Needed to
-make websockets work and to correctly generate links. Defaults to `localhost`.
-- `MFPB_SCHEME`: http scheme, can be `http` or `https`. Defaults to `http`.
+- `PHX_HOST`: base host (e.g. `example.com`) where mfpb is served. Needed to
+make websockets work and to correctly generate links. Defaults to `example.com`.
 - `MFPB_BIN_INACTIVITY_TIMEOUT`: the timeout after which a bin will be deleted
 if there's no activity on it, in milliseconds. Defaults to infinity.
 - `MFPB_BIN_MAX_REQUESTS`: the max number of requests that a bin can receive
@@ -54,7 +50,7 @@ able to replace `mfpb.in` with your URL and, after obtaining SSL certificates,
 you should be good to go.
 
 ## License
-Copyright (c) 2019 Riccardo Binetti <rbino@gmx.com>
+Copyright (c) 2019-2022 Riccardo Binetti <rbino@gmx.com>
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 this file except in compliance with the License. You may obtain a copy of the

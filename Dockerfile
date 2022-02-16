@@ -1,40 +1,78 @@
-FROM bitwalker/alpine-elixir-phoenix:1.9.1 as builder
+# Taken from here
+# https://hexdocs.pm/phoenix/releases.html#containers
+#
+ARG BUILDER_IMAGE="hexpm/elixir:1.13.3-erlang-24.2.1-debian-bullseye-20210902-slim"
+ARG RUNNER_IMAGE="debian:bullseye-20210902-slim"
 
+FROM ${BUILDER_IMAGE} as builder
+
+# install build dependencies
+RUN apt-get update -y && apt-get install -y build-essential git \
+    && apt-get clean && rm -f /var/lib/apt/lists/*_*
+
+# prepare build dir
 WORKDIR /app
 
-ENV MIX_ENV=prod
+# install hex + rebar
+RUN mix local.hex --force && \
+    mix local.rebar --force
 
-# Cache elixir deps
-ADD mix.exs mix.lock ./
-RUN mix do deps.get, deps.compile
+# set build ENV
+ENV MIX_ENV="prod"
 
-# Same with npm deps
-ADD assets/package.json assets/
-RUN cd assets && \
-  npm install
+# install mix dependencies
+COPY mix.exs mix.lock ./
+RUN mix deps.get --only $MIX_ENV
+RUN mkdir config
 
-ADD . .
+# copy compile-time config files before we compile dependencies
+# to ensure any relevant config change will trigger the dependencies
+# to be re-compiled.
+COPY config/config.exs config/${MIX_ENV}.exs config/
+RUN mix deps.compile
 
-# Run frontend build, compile, and digest assets
-RUN cd assets/ && \
-  npm run deploy && \
-  cd - && \
-  mix do compile, phx.digest, release
+COPY priv priv
 
-# Keep this in sync with the one used to build alpine-elixir-phoenix
-FROM alpine:3.10.2
+# note: if your project uses a tool like https://purgecss.com/,
+# which customizes asset compilation based on what it finds in
+# your Elixir templates, you will need to move the asset compilation
+# step down so that `lib` is available.
+COPY assets assets
 
-# Set exposed ports
-EXPOSE 4000
+# compile assets
+RUN mix assets.deploy
+
+# Compile the release
+COPY lib lib
+
+RUN mix compile
+
+# Changes to config/runtime.exs don't require recompiling the code
+COPY config/runtime.exs config/
+
+COPY rel rel
+RUN mix release
+
+# start a new build stage so that the final image will only contain
+# the compiled release and other runtime necessities
+FROM ${RUNNER_IMAGE}
+
+RUN apt-get update -y && apt-get install -y libstdc++6 openssl libncurses5 locales \
+  && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
 # Set the locale
-ENV LANG C.UTF-8
+RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
 
-# Install ncurses
-RUN apk update && apk add ncurses && rm -rf /var/cache/apk/*
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
-WORKDIR /app
+WORKDIR "/app"
+RUN chown nobody /app
 
-COPY --from=builder /app/_build/prod/rel/mfpb .
+# Only copy the final release from the build stage
+COPY --from=builder --chown=nobody:root /app/_build/prod/rel/mfpb ./
 
-CMD ["./bin/mfpb", "start"]
+USER nobody
+
+CMD /app/bin/server

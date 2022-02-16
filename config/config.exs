@@ -5,18 +5,24 @@
 # is restricted to this project.
 
 # General application configuration
-use Mix.Config
-
-config :mfpb,
-  namespace: MFPB
+import Config
 
 # Configures the endpoint
 config :mfpb, MFPBWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "xQXMsOSMhxv/B4GAQQKrAQJnmaLOwbULnEplRsc+zg+JkRDZAQNIk7iBiXkghCc9",
-  render_errors: [view: MFPBWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: MFPB.PubSub, adapter: Phoenix.PubSub.PG2],
+  render_errors: [view: MFPBWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: MFPB.PubSub,
   live_view: [signing_salt: "+n3iMAp7VAyuL+VhokxRMB0ko8DufoZP"]
+
+# Configure esbuild (the version is required)
+config :esbuild,
+  version: "0.14.0",
+  default: [
+    args:
+      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
+    cd: Path.expand("../assets", __DIR__),
+    env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
+  ]
 
 # Configures Elixir's Logger
 config :logger, :console,
