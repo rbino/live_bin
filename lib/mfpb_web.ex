@@ -95,6 +95,7 @@ defmodule MFPBWeb do
       import Phoenix.View
 
       import MFPBWeb.ErrorHelpers
+      import MFPBWeb.LiveHelpers
       import MFPBWeb.Gettext
       alias MFPBWeb.Router.Helpers, as: Routes
     end

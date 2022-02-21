@@ -1,12 +1,35 @@
-defmodule MFPBWeb.RequestsLive.Bin do
+defmodule MFPBWeb.BinLive do
   use MFPBWeb, :live_view
 
   alias MFPB.Config
   alias MFPB.Requests
   alias MFPB.Requests.Request
-  alias MFPBWeb.BinView
+  alias MFPBWeb.BinLive.RequestComponent
   alias MFPBWeb.Endpoint
   alias MFPBWeb.Router.Helpers, as: Routes
+
+  def render(%{bin_error: _bin_error} = assigns) do
+    bin_error(assigns)
+  end
+
+  def render(assigns) do
+    ~H"""
+    <%= if @request_url do %>
+      <h2 class="mgt">Bin base URL</h2>
+      <pre><code><%= @request_url %></code></pre>
+      <p>
+        Send your requests to this URL or any of its subpaths.
+      </p>
+      <hr>
+      <h2>Requests</h2>
+    <% end %>
+    <div id="requests-container" phx-update="prepend">
+      <%= for r <- @requests do %>
+        <RequestComponent.request id={r.id} bin_id={@bin_id} request={r} />
+      <% end %>
+    </div>
+    """
+  end
 
   def mount(_session, socket) do
     {:ok, socket, temporary_assigns: [:requests]}
@@ -21,7 +44,7 @@ defmodule MFPBWeb.RequestsLive.Bin do
        assign(socket, requests: requests, request_url: build_request_url(bin_id), bin_id: bin_id)}
     else
       Process.send_after(self(), :redirect_to_index, 5000)
-      {:noreply, assign(socket, not_found: true)}
+      {:noreply, assign(socket, bin_error: "Bin not found")}
     end
   end
 
@@ -41,34 +64,18 @@ defmodule MFPBWeb.RequestsLive.Bin do
     end
   end
 
-  def render(%{not_found: true} = assigns) do
-    Phoenix.View.render(BinView, "not_found.html", assigns)
-  end
-
-  def render(%{timeout: true} = assigns) do
-    Phoenix.View.render(BinView, "timeout.html", assigns)
-  end
-
-  def render(%{size_exceeded: true} = assigns) do
-    Phoenix.View.render(BinView, "size_exceeded.html", assigns)
-  end
-
-  def render(assigns) do
-    Phoenix.View.render(BinView, "bin.html", assigns)
-  end
-
   def handle_info({:request, %Request{} = req}, socket) do
     {:noreply, assign(socket, requests: [req])}
   end
 
   def handle_info(:bin_timeout, socket) do
     Process.send_after(self(), :redirect_to_index, 5000)
-    {:noreply, assign(socket, timeout: true)}
+    {:noreply, assign(socket, bin_error: "Bin inactivity timeout")}
   end
 
   def handle_info(:bin_size_exceeded, socket) do
     Process.send_after(self(), :redirect_to_index, 5000)
-    {:noreply, assign(socket, size_exceeded: true)}
+    {:noreply, assign(socket, bin_error: "Max bin size exceeded")}
   end
 
   def handle_info(:redirect_to_index, socket) do

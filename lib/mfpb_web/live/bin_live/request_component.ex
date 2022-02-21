@@ -1,4 +1,4 @@
-defmodule MFPBWeb.RequestsLive.RequestComponent do
+defmodule MFPBWeb.BinLive.RequestComponent do
   use MFPBWeb, :component
 
   alias MFPB.Requests.Request

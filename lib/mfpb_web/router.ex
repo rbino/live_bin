@@ -22,8 +22,8 @@ defmodule MFPBWeb.Router do
   scope "/", MFPBWeb do
     pipe_through :browser
 
-    live "/", RequestsLive.Index
-    live "/b/:bin_id", RequestsLive.Bin
+    live "/", IndexLive
+    live "/b/:bin_id", BinLive
     get "/b/:bin_id/requests/:request_id/body", BinController, :get_body
   end
 
