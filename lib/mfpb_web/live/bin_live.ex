@@ -8,10 +8,6 @@ defmodule MFPBWeb.BinLive do
   alias MFPBWeb.Endpoint
   alias MFPBWeb.Router.Helpers, as: Routes
 
-  def render(%{bin_error: _bin_error} = assigns) do
-    bin_error(assigns)
-  end
-
   def render(assigns) do
     ~H"""
     <%= if @request_url do %>
@@ -43,8 +39,7 @@ defmodule MFPBWeb.BinLive do
       {:noreply,
        assign(socket, requests: requests, request_url: build_request_url(bin_id), bin_id: bin_id)}
     else
-      Process.send_after(self(), :redirect_to_index, 5000)
-      {:noreply, assign(socket, bin_error: "Bin not found")}
+      {:noreply, bin_error(socket, "Bin not found")}
     end
   end
 
@@ -69,16 +64,17 @@ defmodule MFPBWeb.BinLive do
   end
 
   def handle_info(:bin_timeout, socket) do
-    Process.send_after(self(), :redirect_to_index, 5000)
-    {:noreply, assign(socket, bin_error: "Bin inactivity timeout")}
+    {:noreply, bin_error(socket, "Bin inactivity timeout")}
   end
 
   def handle_info(:bin_size_exceeded, socket) do
     Process.send_after(self(), :redirect_to_index, 5000)
-    {:noreply, assign(socket, bin_error: "Max bin size exceeded")}
+    {:noreply, bin_error(socket, "Max bin size exceeded")}
   end
 
-  def handle_info(:redirect_to_index, socket) do
-    {:noreply, push_redirect(socket, to: "/")}
+  defp bin_error(socket, message) do
+    socket
+    |> put_flash(:error, message)
+    |> push_redirect(to: "/")
   end
 end
