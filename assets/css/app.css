@@ -1,6 +1,8 @@
-/* This file is for your main application css. */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
-@import "./phoenix.css";
+/* This file is for your main application css. */
 
 /* Alerts and form errors used by phx.new */
 .alert {
