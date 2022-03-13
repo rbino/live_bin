@@ -6,15 +6,11 @@ defmodule MFPBWeb.IndexLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="row">
-      <div class="column column-center text-center">
-        <h1>mfpb</h1>
-        <button class="button mg" phx-click="create" phx-throttle="1000">Create new bin</button>
-      </div>
-    </div>
-    <div class="row">
-      <div class="column">
-        <h2>About</h2>
+    <main class="container">
+      <section class="text-center">
+        <button class="font-bold my-8 px-8 py-3 border-2 border-slate-700 hover:bg-slate-700 hover:text-slate-50 rounded-xl text-xl transition-colors" phx-click="create" phx-throttle="1000">Create new bin</button>
+      </section>
+      <section class="max-w-prose mx-auto leading-relaxed text-lg flex flex-col space-y-3">
         <p>
           <b>mfpb</b> is a simple tool used to inspect HTTP requests.
         </p>
@@ -22,7 +18,7 @@ defmodule MFPBWeb.IndexLive do
           It tries not to get in your way, it doesn't parse the body or do other
           fancy stuff with your request. This way you see exactly what was sent.
           The idea is basically having the same output you would get by doing HTTP
-          requests to a listening instance of <code>netcat</code>.
+          requests to a listening instance of <code class="bg-slate-200 px-1">netcat</code>.
         </p>
         <p>
           Under the hood it uses the super cool
@@ -33,8 +29,8 @@ defmodule MFPBWeb.IndexLive do
         <p>
           You can find the source <a target="_blank" href="https://github.com/rbino/mfpb">on Github</a>.
         </p>
-      </div>
-    </div>
+      </section>
+    </main>
     """
   end
 
