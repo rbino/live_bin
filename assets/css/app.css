@@ -1,6 +1,15 @@
-/* This file is for your main application css. */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
 
-@import "./phoenix.css";
+@layer base {
+    a {
+        @apply font-bold hover:text-slate-500 underline;
+    }
+}
+
+@import "tailwindcss/utilities";
+
+/* This file is for your main application css. */
 
 /* Alerts and form errors used by phx.new */
 .alert {
@@ -118,30 +127,4 @@
 @keyframes fade-out-keys{
   0% { opacity: 1; }
   100% { opacity: 0; }
-}
-
-body {
-    font-size: 1.8rem;
-}
-
-.button {
-    font-size: 1.3rem;
-}
-
-.text-center {
-    text-align: center;
-}
-
-h1 {
-    font-size: 3.8rem;
-    margin-top: 2.0rem;
-    margin-bottom: 0rem;
-}
-
-.mg {
-    margin: 3rem;
-}
-
-.mgt {
-    margin-top: 2rem;
 }

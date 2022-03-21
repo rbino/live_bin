@@ -1,11 +1,13 @@
-<main class="container">
-  <p class="alert alert-info" role="alert"
-    phx-click="lv:clear-flash"
-    phx-value-key="info"><%= live_flash(@flash, :info) %></p>
+<div>
+  <.flash flash={@flash} kind={:info}/>
+  <.flash flash={@flash} kind={:error}/>
 
-  <p class="alert alert-danger" role="alert"
-    phx-click="lv:clear-flash"
-    phx-value-key="error"><%= live_flash(@flash, :error) %></p>
-
+  <header class="py-6 bg-slate-800">
+    <h1 class="text-5xl tracking-wide text-slate-50 text-center">
+      <%= live_redirect "mfpb",
+          class: "font-normal hover:text-slate-50 no-underline",
+          to: Routes.live_path(@socket, MFPBWeb.IndexLive) %>
+    </h1>
+  </header>
   <%= @inner_content %>
-</main>
+</div>

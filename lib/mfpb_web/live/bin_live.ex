@@ -10,19 +10,23 @@ defmodule MFPBWeb.BinLive do
 
   def render(assigns) do
     ~H"""
-    <%= if @request_url do %>
-      <h2 class="mgt">Bin base URL</h2>
-      <pre><code><%= @request_url %></code></pre>
-      <p>
-        Send your requests to this URL or any of its subpaths.
-      </p>
-      <hr>
-      <h2>Requests</h2>
-    <% end %>
-    <div id="requests-container" phx-update="prepend">
-      <%= for r <- @requests do %>
-        <RequestComponent.request id={r.id} bin_id={@bin_id} request={r} />
-      <% end %>
+    <div class="px-4 mx-auto max-w-3xl">
+      <div class="mt-8 mb-4 text-center">
+        <div class="flex justify-center items-center gap-2">
+          <clipboard-copy for="request-url" class="cursor-pointer" phx-click="url-copied">
+            <.icon name={:clipboard_copy} outlined={true} class="w-7 h-7 mb-1" />
+          </clipboard-copy>
+          <code id="request-url" class="bg-slate-200 rounded-lg py-1 px-2 md:px-3 whitespace-nowrap text-xs md:text-lg"><%= @request_url %></code>
+        </div>
+        <p class="mt-4 mb-8 text-xs md:text-base">
+          Send your requests to this URL or any of its subpaths
+        </p>
+      </div>
+      <div id="requests-container" class="flex flex-col gap-4 pb-16" phx-update="prepend">
+        <%= for r <- @requests do %>
+          <RequestComponent.request id={r.id} bin_id={@bin_id} request={r} />
+        <% end %>
+      </div>
     </div>
     """
   end
@@ -70,6 +74,10 @@ defmodule MFPBWeb.BinLive do
   def handle_info(:bin_size_exceeded, socket) do
     Process.send_after(self(), :redirect_to_index, 5000)
     {:noreply, bin_error(socket, "Max bin size exceeded")}
+  end
+
+  def handle_event("url-copied", _params, socket) do
+    {:noreply, put_flash(socket, :info, "Bin URL copied to the clipboard")}
   end
 
   defp bin_error(socket, message) do
