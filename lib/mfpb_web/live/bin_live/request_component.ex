@@ -6,21 +6,30 @@ defmodule MFPBWeb.BinLive.RequestComponent do
 
   def request(assigns) do
     ~H"""
-    <div id={@id}>
-      <h4>ID: <a href={"##{@id}"}><%= @id %></a></h4>
-      <h5>Received at: <%= DateTime.to_iso8601(@request.timestamp) %></h5>
-      <%= if @request.body && not printable?(@request) do %>
-        <i>The body was hidden since it contains unprintable characters</i>
-      <% end %>
-      <.body request={@request} />
-      <.body_link request={@request} bin_id={@bin_id} id={@id} />
-      <hr/>
+    <div class="shadow-md hover:shadow-lg transition-shadow rounded-lg overflow-hidden" id={@id}>
+      <div class="bg-slate-700 p-1">
+        <h4 class="md:text-lg text-center text-slate-50">
+          <a class="no-underline hover:underline hover:text-slate-50" href={"##{@id}"}><%= @id %></a>
+        </h4>
+      </div>
+      <div class="flex flex-col gap-4 p-4 bg-slate-50">
+        <%= if @request.body && not printable?(@request) do %>
+          <i>The body was hidden since it contains unprintable characters</i>
+        <% end %>
+        <.body request={@request} />
+        <.body_link request={@request} bin_id={@bin_id} id={@id} />
+        <h5 class="text-slate-700">Received at: <%= DateTime.to_iso8601(@request.timestamp) %></h5>
+      </div>
     </div>
     """
   end
 
   def body(assigns) do
-    ~H'<pre><code><%= body_string(@request) %></code></pre>'
+    ~H"""
+    <pre class="pre-wrap overflow-y-auto px-4 py-2 bg-slate-200 border-l-2 border-slate-700">
+    <code><%= body_string(@request) %></code>
+    </pre>
+    """
   end
 
   def body_link(assigns) do
