@@ -6,7 +6,7 @@ import Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
-config :mfpb, MFPBWeb.Endpoint,
+config :live_bin, LiveBinWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4000],
   debug_errors: true,
   code_reloader: true,
@@ -43,13 +43,13 @@ config :mfpb, MFPBWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :mfpb, MFPBWeb.Endpoint,
+config :live_bin, LiveBinWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/mfpb_web/(live|views)/.*(ex)$",
-      ~r"lib/mfpb_web/templates/.*(eex)$"
+      ~r"lib/live_bin_web/(live|views)/.*(ex)$",
+      ~r"lib/live_bin_web/templates/.*(eex)$"
     ]
   ]
 

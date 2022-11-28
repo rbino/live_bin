@@ -1,7 +1,7 @@
 import Config
 # Start the phoenix server if environment is set and running in a release
 if System.get_env("PHX_SERVER") && System.get_env("RELEASE_NAME") do
-  config :mfpb, MFPBWeb.Endpoint, server: true
+  config :live_bin, LiveBinWeb.Endpoint, server: true
 end
 
 if config_env() == :prod do
@@ -23,7 +23,7 @@ if config_env() == :prod do
   host = System.get_env("PHX_HOST") || "example.com"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
-  config :mfpb, MFPBWeb.Endpoint,
+  config :live_bin, LiveBinWeb.Endpoint,
     url: [host: host, port: 443],
     http: [
       # Enable IPv6 and bind on all interfaces.
@@ -36,7 +36,7 @@ if config_env() == :prod do
     secret_key_base: secret_key_base
 
   bin_inactivity_timeout =
-    case System.fetch_env("MFPB_BIN_INACTIVITY_TIMEOUT") do
+    case System.fetch_env("LIVE_BIN_BIN_INACTIVITY_TIMEOUT") do
       {:ok, inactivity_timeout} ->
         String.to_integer(inactivity_timeout)
 
@@ -44,11 +44,11 @@ if config_env() == :prod do
         :infinity
     end
 
-  config :mfpb, :bin_inactivity_timeout, bin_inactivity_timeout
+  config :live_bin, :bin_inactivity_timeout, bin_inactivity_timeout
 
-  config :mfpb, :bin_max_requests, System.get_env("MFPB_BIN_MAX_REQUESTS")
+  config :live_bin, :bin_max_requests, System.get_env("LIVE_BIN_BIN_MAX_REQUESTS")
 
-  if System.get_env("MFPB_USE_BIN_SUBDOMAINS") do
-    config :mfpb, :use_bin_subdomains, true
+  if System.get_env("LIVE_BIN_USE_BIN_SUBDOMAINS") do
+    config :live_bin, :use_bin_subdomains, true
   end
 end
