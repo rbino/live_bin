@@ -36,7 +36,7 @@ if config_env() == :prod do
     secret_key_base: secret_key_base
 
   bin_inactivity_timeout =
-    case System.fetch_env("LIVE_BIN_BIN_INACTIVITY_TIMEOUT") do
+    case System.fetch_env("LIVE_BIN_INACTIVITY_TIMEOUT") do
       {:ok, inactivity_timeout} ->
         String.to_integer(inactivity_timeout)
 
@@ -46,7 +46,7 @@ if config_env() == :prod do
 
   config :live_bin, :bin_inactivity_timeout, bin_inactivity_timeout
 
-  config :live_bin, :bin_max_requests, System.get_env("LIVE_BIN_BIN_MAX_REQUESTS")
+  config :live_bin, :bin_max_requests, System.get_env("LIVE_BIN_MAX_REQUESTS")
 
   if System.get_env("LIVE_BIN_USE_BIN_SUBDOMAINS") do
     config :live_bin, :use_bin_subdomains, true
