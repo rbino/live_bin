@@ -1,3 +1,3 @@
-defmodule MFPBWeb.LayoutViewTest do
-  use MFPBWeb.ConnCase, async: true
+defmodule LiveBinWeb.LayoutViewTest do
+  use LiveBinWeb.ConnCase, async: true
 end

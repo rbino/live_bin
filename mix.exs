@@ -1,9 +1,9 @@
-defmodule MFPB.MixProject do
+defmodule LiveBin.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :mfpb,
+      app: :live_bin,
       version: "0.3.0",
       elixir: "~> 1.13",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -19,7 +19,7 @@ defmodule MFPB.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {MFPB.Application, []},
+      mod: {LiveBin.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

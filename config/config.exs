@@ -8,10 +8,10 @@
 import Config
 
 # Configures the endpoint
-config :mfpb, MFPBWeb.Endpoint,
+config :live_bin, LiveBinWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: MFPBWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: MFPB.PubSub,
+  render_errors: [view: LiveBinWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: LiveBin.PubSub,
   live_view: [signing_salt: "+n3iMAp7VAyuL+VhokxRMB0ko8DufoZP"]
 
 # Configure esbuild (the version is required)

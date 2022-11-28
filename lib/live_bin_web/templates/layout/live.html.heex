@@ -1,0 +1,13 @@
+<div>
+  <.flash flash={@flash} kind={:info}/>
+  <.flash flash={@flash} kind={:error}/>
+
+  <header class="py-6 bg-slate-800">
+    <h1 class="text-5xl tracking-wide text-slate-50 text-center">
+      <%= live_redirect "LiveBin",
+          class: "font-normal hover:text-slate-50 no-underline",
+          to: Routes.live_path(@socket, LiveBinWeb.IndexLive) %>
+    </h1>
+  </header>
+  <%= @inner_content %>
+</div>
