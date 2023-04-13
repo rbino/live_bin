@@ -14,7 +14,7 @@ refreshing.
 
 You can visit [liveb.in](https://liveb.in) to try it live.
 
-## Running your instance
+## Running your instance (with Docker)
 
 You can run your instance using the Docker image
 
@@ -48,6 +48,22 @@ In `priv/examples/nginx-example.conf` you can find a sample `nginx` conf to
 serve as reverse proxy for live_bin, with bin subdomains support. You should just be
 able to replace `live_b.in` with your URL and, after obtaining SSL certificates,
 you should be good to go.
+
+## Developing and building
+
+You can run your local instance (to test modifications) simply with:
+
+```bash
+$ mix deps.get
+$ npm install --prefix assets
+$ iex -S mix phx.server
+```
+
+Alternatively, you can also rebuild the Docker image with:
+
+```bash
+$ docker build .
+```
 
 ## License
 Copyright (c) 2019-2022 Riccardo Binetti <rbino@gmx.com>
